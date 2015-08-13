@@ -11,15 +11,13 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
-    <ImageButton
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:src="@drawable/bn_facebook"
-        android:scaleType="centerInside"
-        android:background="@color/brand"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/imageButton" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
 
     <LinearLayout
         android:orientation="horizontal"
