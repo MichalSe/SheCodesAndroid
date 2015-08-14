@@ -68,7 +68,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends", "email", "user_birthday", "user_hometown", "user_location", "user_photos");
+        loginButton.setReadPermissions("user_friends", "email", "user_birthday", "user_hometown");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -121,6 +121,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
