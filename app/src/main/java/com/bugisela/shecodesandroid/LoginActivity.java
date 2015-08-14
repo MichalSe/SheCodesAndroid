@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class FacebookActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -66,6 +66,7 @@ public class FacebookActivity extends Activity implements LoaderCallbacks<Cursor
         setContentView(R.layout.activity_login);
 
         callbackManager = CallbackManager.Factory.create();
+
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends", "email", "user_birthday", "user_hometown", "user_location", "user_photos");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -87,6 +88,8 @@ public class FacebookActivity extends Activity implements LoaderCallbacks<Cursor
                 System.out.println("error");
             }
         });
+
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -107,7 +110,7 @@ public class FacebookActivity extends Activity implements LoaderCallbacks<Cursor
             @Override
             public void onClick(View view) {
                 //attemptLogin();
-                Intent intent = new Intent(FacebookActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -268,7 +271,7 @@ public class FacebookActivity extends Activity implements LoaderCallbacks<Cursor
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(FacebookActivity.this,
+                new ArrayAdapter<String>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
