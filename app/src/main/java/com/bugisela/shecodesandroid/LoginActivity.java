@@ -68,12 +68,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends", "email", "user_birthday", "user_hometown");
+        loginButton.setReadPermissions("email", "user_birthday", "user_hometown");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                System.out.println("success");
+                Intent intent= new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                System.out.println("success: "+ loginResult.getAccessToken());
+               // NetworkManager.sendLoginInfo(loginResult);
             }
 
             @Override
