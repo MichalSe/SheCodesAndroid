@@ -29,8 +29,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +78,44 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                Intent intent= new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                System.out.println("success: "+ loginResult.getAccessToken());
-               // NetworkManager.sendLoginInfo(loginResult);
+                final String token = loginResult.getAccessToken().getToken();
+                System.out.println("success: " + token);
+
+                GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject json, GraphResponse response) {
+                                if (response.getError() != null) {
+                                    // handle error
+                                    System.out.println("ERROR");
+                                } else {
+                                    System.out.println("Success");
+                                    try {
+
+                                        String jsonresult = String.valueOf(json);
+                                        System.out.println("JSON Result" + jsonresult);
+
+                                        String str_email = json.getString("email");
+                                        String str_id = json.getString("id");
+                                        String str_firstname = json.getString("first_name");
+                                        String str_lastname = json.getString("last_name");
+
+                                     //   NetworkManager.sendLoginInfo(str_id);
+                                        NetworkManager task = new NetworkManager();
+                                        task.execute(new String[] { str_id });
+
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                        }).executeAsync();
+
             }
 
             @Override
